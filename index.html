@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Interação com o Contrato PamonhaToken</title>
-    <!-- Certifique-se de que você está carregando a versão correta da biblioteca ethers.js -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.6.8/dist/ethers.min.js"></script>
+    <!-- Tente usar um link alternativo para o script ethers.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.6.8/ethers.min.js"></script>
 </head>
 <body>
     <button id="connectWalletButton">Conectar Wallet</button>
@@ -406,9 +406,9 @@
         const connectWalletButton = document.getElementById('connectWalletButton');
         const depositButton = document.getElementById('depositButton');
 
-        // Verifica se o ethers foi carregado corretamente
+        // Adicionando uma verificação para garantir que ethers está definido
         if (typeof ethers === 'undefined') {
-            console.log('Ethers.js não está carregado. Verifique a sua tag de script!');
+            console.error('A biblioteca ethers.js não foi carregada corretamente.');
         } else {
             // Conectar à carteira do usuário
             connectWalletButton.addEventListener('click', async () => {
