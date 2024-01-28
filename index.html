@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pamonha Token Interaction</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.0/web3.min.js"></script>
+</head>
+<body>
+
+<h1>Pamonha Token Interaction</h1>
+
+<button id="connectWalletButton">Conectar Wallet</button>
+<button id="depositButton" disabled>Depositar 0,05 ETH</button>
+
+<script>
+    let web3;
+    let selectedAccount;
+    let contract;
+
+    const contractAddress = '0xDe0b687b4CB6DcA3A5fD1161412f11e000a49d68';
+    const contractABI = [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+    window.addEventListener('load', async () => {
+        if (typeof window.ethereum !== 'undefined') {
+            web3 = new Web3(window.ethereum);
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                selectedAccount = accounts[0];
+                console.log(`Connected to account: ${selectedAccount}`);
+
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+
+                document.getElementById('connectWalletButton').disabled = true;
+                document.getElementById('depositButton').disabled = false;
+            } catch (error) {
+                console.error('User denied account access');
+            }
+        } else {
+            console.error('MetaMask not found');
+        }
+    });
+
+    document.getElementById('connectWalletButton').addEventListener('click', async () => {
+        if (typeof window.ethereum !== 'undefined') {
+            web3 = new Web3(window.ethereum);
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                selectedAccount = accounts[0];
+                console.log(`Connected to account: ${selectedAccount}`);
+
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+
+                this.disabled = true;
+                document.getElementById('depositButton').disabled = false;
+            } catch (error) {
+                console.error('User denied account access');
+            }
+        } else {
+            console.error('MetaMask not found');
+        }
+    });
+
+    document.getElementById('depositButton').addEventListener('click', async () => {
+        if (!contract) {
+            console.error('Contract is not initialized.');
+            return;
+        }
+
+        try {
+            const transactionParameters = {
+                to: contractAddress,
+                from: selectedAccount,
+                value: web3.utils.toHex(web3.utils.toWei('0.05', 'ether'))
+            };
+
+            const txHash = await web3.eth.sendTransaction(transactionParameters);
+            console.log(`Transaction hash: ${txHash.transactionHash}`);
+
+            // A transação para enviar os ETH irá disparar a função no contrato automaticamente.
+        } catch (error) {
+            console.error(error);
+        }
+    });
+</script>
+
+</body>
+</html>
