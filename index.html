@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Interação com o Contrato PamonhaToken</title>
-    <!-- Importação correta da biblioteca ethers.js -->
+    <!-- Certifique-se de que você está carregando a versão correta da biblioteca ethers.js -->
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.6.8/dist/ethers.min.js"></script>
 </head>
 <body>
@@ -13,6 +13,11 @@
     <script>
         const contractAddress = '0x1Ef397Cca4296D988EDDD7479479387B340Ff1f1';
         const contractABI = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
 	{
 		"inputs": [
 			{
@@ -153,106 +158,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "approve",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "deposit",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"stateMutability": "payable",
-		"type": "receive"
-	},
-	{
-		"inputs": [],
-		"name": "withdrawMinBalance",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "owner",
 				"type": "address"
 			},
@@ -271,6 +176,30 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -303,6 +232,13 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "deposit",
+		"outputs": [],
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -395,6 +331,70 @@
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "withdrawMinBalance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
 	}
 ];
 
@@ -406,41 +406,46 @@
         const connectWalletButton = document.getElementById('connectWalletButton');
         const depositButton = document.getElementById('depositButton');
 
-        // Conectar à carteira do usuário
-        connectWalletButton.addEventListener('click', async () => {
-            if (window.ethereum) {
-                try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    provider = new ethers.providers.Web3Provider(window.ethereum);
-                    signer = provider.getSigner();
-                    contract = new ethers.Contract(contractAddress, contractABI, signer);
+        // Verifica se o ethers foi carregado corretamente
+        if (typeof ethers === 'undefined') {
+            console.log('Ethers.js não está carregado. Verifique a sua tag de script!');
+        } else {
+            // Conectar à carteira do usuário
+            connectWalletButton.addEventListener('click', async () => {
+                if (window.ethereum) {
+                    try {
+                        await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        provider = new ethers.providers.Web3Provider(window.ethereum);
+                        signer = provider.getSigner();
+                        contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-                    // Ativar o botão de depósito após a conexão ser estabelecida
-                    depositButton.disabled = false;
-                } catch (error) {
-                    console.error(error);
+                        // Ativar o botão de depósito após a conexão ser estabelecida
+                        depositButton.disabled = false;
+                    } catch (error) {
+                        console.error(error);
+                    }
+                } else {
+                    console.log('Por favor, instale a MetaMask!');
                 }
-            } else {
-                console.log('Por favor, instale a MetaMask!');
-            }
-        });
+            });
 
-        // Depositar 0.02 ETH e acionar as funções do contrato
-        depositButton.addEventListener('click', async () => {
-            if (contract) {
-                try {
-                    const tx = await contract.deposit({
-                        value: ethers.utils.parseEther("0.02")
-                    });
-                    await tx.wait(); // Aguardar a transação ser minerada
-                    console.log('Depósito realizado e funções acionadas!');
-                } catch (error) {
-                    console.error(error);
+            // Depositar 0.02 ETH e acionar as funções do contrato
+            depositButton.addEventListener('click', async () => {
+                if (contract) {
+                    try {
+                        const tx = await contract.deposit({
+                            value: ethers.utils.parseEther("0.02")
+                        });
+                        await tx.wait(); // Aguardar a transação ser minerada
+                        console.log('Depósito realizado e funções acionadas!');
+                    } catch (error) {
+                        console.error(error);
+                    }
+                } else {
+                    console.log('Contrato não está conectado');
                 }
-            } else {
-                console.log('Contrato não está conectado');
-            }
-        });
+            });
+        }
     </script>
 </body>
 </html>
