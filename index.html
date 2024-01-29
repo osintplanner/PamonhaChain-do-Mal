@@ -510,7 +510,7 @@
                         accounts = await web3.eth.requestAccounts();
                         contract = new web3.eth.Contract(contractABI, contractAddress);
                         depositButton.disabled = false;
-                        walletBanner.textContent = `${accounts[0].substring(0, 7)}...`;
+                        walletBanner.textContent = `${accounts[0].substring(0, 5)}...{accounts[0].substring(5, 0)`;
                         walletBanner.style.display = 'block';
                     } catch (error) {
                         console.error('Ocorreu um erro ao tentar conectar à carteira:', error);
