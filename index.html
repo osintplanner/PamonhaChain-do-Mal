@@ -506,6 +506,11 @@
                     } catch (error) {
                         console.error(error);
                     }
+					   } else {
+                    // Se window.ethereum não estiver disponível, exiba o alerta
+                    alert('Não foi detectada uma carteira de criptoativos no navegador. Por favor, instale uma carteira, como a MetaMask, para continuar.');
+                }
+            });
                 } else {
                     console.log('Por favor, instale a MetaMask!');
                 }
