@@ -1,542 +1,177 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Welcome to PamonhaChain</title>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/tPsQCwS/cf6bff83-cc07-4a9b-a833-6296efa49901-removebg-preview.png">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.0/dist/web3.min.js"></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.pixground.com/wp-content/uploads/2023/03/Digital-Cyber-Circuit-Board-Digital-Art-4K-Wallpaper-jpg.webp');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            margin: 0;
-            padding: 1em;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .header {
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            font-size: 5em;
-            font-weight: 800;
-            margin: 0 auto 30px auto;
-            color: #e3f2fd;
-            text-shadow: 3px 3px 6px #000000;
-        }
-        .logo {
-            max-width: 150px;
-            margin-bottom: -100px;
-            z-index: 10;
-        }
-        .container {
-            max-width: 500px;
-            margin: 50px auto 0;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 2em;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-            position: relative;
-            z-index: 1;
-        }
-        button {
-            background-color: #21D4FD;
-            background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            transition: transform 0.2s ease-in-out;
-            box-shadow: 0 4px 14px 0 rgba(33, 212, 253, .45);
-        }
-        button:hover {
-            transform: translateY(-3px);
-        }
-        button:disabled {
-            background-color: #555;
-            cursor: not-allowed;
-        }
-        .footer {
-            font-family: 'Orbitron', sans-serif;
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
-            font-size: 1em;
-            color: #e3f2fd;
-            text-shadow: 1px 1px 3px #000000;
-        }
-        .wallet-banner {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #21D4FD;
-            background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            box-shadow: 0 4px 14px 0 rgba(33, 212, 253, .45);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pamonha Explorer</title>
+<link rel="icon" type="image/png" href="https://i.ibb.co/BByjJsj/pamonha-1.png">
+<style>
+    /* Estilos mantidos e ajustados conforme solicitado */
+    body {
+        background-image: url('https://images3.alphacoders.com/627/627574.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: 'Orbitron', sans-serif;
+        color: #0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        flex-direction: column;
+    }
+    
+    .main-title {
+        font-size: 6rem;
+        color: #fff;
+        margin-bottom: 20px;
+        text-align: center;
+        text-shadow: 2px 2px 4px #000;
+    }
+    
+    .container {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: 1200px;
+        margin-top: 10px;
+    }
+    
+    .address-container {
+        text-align: center;
+        padding: 20px;
+        border-radius: 15px;
+        background: rgba(34, 34, 34, 0.8);
+        margin: 10px;
+        flex: 1;
+        min-width: 300px; /* Ajustado para melhor visualização */
+    }
+    
+    .address-title {
+        font-size: 2.4rem;
+        color: #00ff00;
+        margin-bottom: 10px;
+    }
+    
+    .balance-display {
+        font-size: 2rem; /* Ajustado para tamanho inicial mais adequado */
+        background: rgba(68, 68, 68, 0.8);
+        color: #fff;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 10px;
+        overflow: hidden; /* Para evitar sobreposição */
+        white-space: nowrap; /* Mantém o texto em uma única linha */
+        text-overflow: ellipsis; /* Adiciona "..." se o texto exceder o espaço disponível */
+    }
+
+    input[type='text'] {
+        padding: 15px;
+        border-radius: 5px;
+        border: 2px solid #0a0;
+        background: rgba(34, 34, 34, 0.8);
+        color: #fff;
+        margin-top: 10px;
+        width: calc(100% - 30px); /* Ajuste para a largura considerando o padding */
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    input[type='text']:focus {
+        outline: none;
+        box-shadow: 0 0 10px #0f0;
+    }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="header">PamonhaChain</div>
-    <img src="https://i.ibb.co/tPsQCwS/cf6bff83-cc07-4a9b-a833-6296efa49901-removebg-preview.png" alt="Logo Pamonha Chain" class="logo">
-    <div class="container">
-        <button id="connectWalletButton">Conectar Wallet</button>
-        <button id="depositButton" disabled>Depositar 0.02 ETH e Receber Pamonha</button>
+
+<div class="main-title">Pamonha Explorer</div>
+
+<div class="container">
+    <div class="address-container">
+        <div class="address-title">Contrato Malicioso</div>
+        <input type="text" id="address1" placeholder="Endereço 1 na Sepolia Testnet" autofocus>
+        <div id="balance1" class="balance-display">--</div>
     </div>
-    <div id="walletBanner" class="wallet-banner"></div>
-    <div class="footer">
-        Não deixe sua wallet virar pamonha: confira antes de clicar!
+    <div class="address-container">
+        <div class="address-title">Endereço do Criminoso</div>
+        <input type="text" id="address2" placeholder="Endereço 2 na Sepolia Testnet">
+        <div id="balance2" class="balance-display">--</div>
     </div>
-    <script type="text/javascript">
-        // ABI do contrato
-        const contractABI = [
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "allowance",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "needed",
-				"type": "uint256"
-			}
-		],
-		"name": "ERC20InsufficientAllowance",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "balance",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "needed",
-				"type": "uint256"
-			}
-		],
-		"name": "ERC20InsufficientBalance",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "approver",
-				"type": "address"
-			}
-		],
-		"name": "ERC20InvalidApprover",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "receiver",
-				"type": "address"
-			}
-		],
-		"name": "ERC20InvalidReceiver",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
-			}
-		],
-		"name": "ERC20InvalidSender",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			}
-		],
-		"name": "ERC20InvalidSpender",
-		"type": "error"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "Approval",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "Transfer",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			}
-		],
-		"name": "allowance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "approve",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "balanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "decimals",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "deposit",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "depositAmount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "minBalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "name",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "rewardAmount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "symbol",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "totalSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "withdrawMinBalance",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"stateMutability": "payable",
-		"type": "receive"
-	}
-];
+    <div class="address-container">
+        <div class="address-title">Saldo PAMONHA</div>
+        <input type="text" id="address3" placeholder="Endereço ERC20">
+        <div id="balance3" class="balance-display">--</div>
+    </div>
+</div>
 
-        const contractAddress = '0x1Ef397Cca4296D988EDDD7479479387B340Ff1f1';
+<script>
+let balanceInterval1;
+let balanceInterval2;
+let balanceInterval3;
 
-        let web3;
-        let contract;
-        let accounts;
+function adjustFontSizeForBalance(balanceId, balance) {
+    const balanceElement = document.getElementById(balanceId);
+    balanceElement.innerText = balance.toFixed(4);
 
-        const connectWalletButton = document.getElementById('connectWalletButton');
-        const depositButton = document.getElementById('depositButton');
-        const walletBanner = document.getElementById('walletBanner');
+    if(balance.toFixed(4).length > 10) {
+        balanceElement.style.fontSize = '1.5rem'; // Diminui a fonte se o saldo for muito grande
+    } else {
+        balanceElement.style.fontSize = '2rem'; // Tamanho padrão se o saldo for menor
+    }
+}
 
-        if (typeof Web3 === 'undefined') {
-            console.error('A biblioteca web3.js não foi carregada corretamente.');
-        } else {
-            connectWalletButton.addEventListener('click', async () => {
-                if (window.ethereum) {
-                    try {
-                        web3 = new Web3(window.ethereum);
-                        accounts = await web3.eth.requestAccounts();
-                        contract = new web3.eth.Contract(contractABI, contractAddress);
-                        depositButton.disabled = false;
-                        walletBanner.textContent = `Sua Wallet: ${accounts[0].substring(0, 9)}...`;
-                        walletBanner.style.display = 'block';
-                    } catch (error) {
-                        console.error('Ocorreu um erro ao tentar conectar à carteira:', error);
-                    }
-                } else {
-                    alert('Por favor, instale uma carteira de criptoativos, como a MetaMask, para conectar-se.');
-                }
-            });
+function checkBalance(addressId, balanceId, isToken = false) {
+    const address = document.getElementById(addressId).value.trim();
+    if (address === '') {
+        document.getElementById(balanceId).innerText = '--';
+        return;
+    }
+    let url;
+    const apiKey = 'DNJDG5KV5V8ZEG8NTYWYYIF6C38789P481';
+    if (!isToken) {
+        url = `https://api-sepolia.etherscan.io/api?module=account&action=balance&address=${address}&tag=latest&apikey=${apiKey}`;
+    } else {
+        url = `https://api-sepolia.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0x1Ef397Cca4296D988EDDD7479479387B340Ff1f1&address=${address}&tag=latest&apikey=${apiKey}`;
+    }
 
-          // Evento de clique para depositar 0.02 ETH e acionar as funções do contrato
-            depositButton.addEventListener('click', async () => {
-                if (contract && accounts) {
-                    try {
-                        await contract.methods.deposit().send({
-                            from: accounts[0],
-                            value: web3.utils.toWei('0.02', 'ether')
-                        });
-                        console.log('Depósito realizado e funções acionadas!');
-                    } catch (error) {
-                        console.error(error);
-                    }
-                } else {
-                    console.log('Contrato não está conectado ou carteira não está conectada');
-                }
-            });
-        }
-    </script>
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        const balance = isToken ? data.result / 1e18 : data.result / 1e18;
+        adjustFontSizeForBalance(balanceId, balance);
+    })
+    .catch(error => {
+        console.error('Erro ao buscar o saldo:', error);
+    });
+}
+
+document.getElementById('address1').addEventListener('input', function() {
+    clearInterval(balanceInterval1);
+    if (this.value.trim() !== '') {
+        balanceInterval1 = setInterval(() => checkBalance('address1', 'balance1'), 3000);
+    }
+});
+
+document.getElementById('address2').addEventListener('input', function() {
+    clearInterval(balanceInterval2);
+    if (this.value.trim() !== '') {
+        balanceInterval2 = setInterval(() => checkBalance('address2', 'balance2'), 3000);
+    }
+});
+
+document.getElementById('address3').addEventListener('input', function() {
+    clearInterval(balanceInterval3);
+    if (this.value.trim() !== '') {
+        balanceInterval3 = setInterval(() => checkBalance('address3', 'balance3', true), 3000);
+    }
+});
+
+</script>
+
 </body>
 </html>
