@@ -1,59 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <title>Welcome to PamonhaChain</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/tPsQCwS/cf6bff83-cc07-4a9b-a833-6296efa49901-removebg-preview.png">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-    <!-- Incluindo a versão do web3.js -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.3.0/dist/web3.min.js"></script>
-    <style>
-        body {
+<style>
+    body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.pixground.com/wp-content/uploads/2023/03/Digital-Cyber-Circuit-Board-Digital-Art-4K-Wallpaper-jpg.webp');
-            background-size: cover;
-            background-position: center;
+        background-size: cover;
+        background-position: center;
             color: white;
             margin: 0;
             padding: 1em;
             height: 100vh;
-            display: flex;
+        display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+        justify-content: center;
+        align-items: center;
+    }
         .header {
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
-            font-size: 3em;
-            font-weight: 500;
+            font-size: 5em;
+            font-weight: 800;
             margin: 0 auto 30px auto;
-            color: #e3f2fd; /* Azul claro para melhor contraste */
-            text-shadow: 3px 3px 6px #000000; /* Sombra mais destacada para o texto */
+            color: #e3f2fd;
+            text-shadow: 3px 3px 6px #000000;
         }
         .logo {
             max-width: 150px;
-            margin-bottom: -100px; /* Aumentando a distância da moldura */
+            margin-bottom: -100px;
             z-index: 10;
-        }
-        .container {
+    }
+    .container {
             max-width: 500px;
-            margin: 50px auto 0; /* Aumentando a distância entre a logo e a moldura */
-            background: rgba(0, 0, 0, 0.75);
+            margin: 50px auto 0;
+            background: rgba(0, 0, 0, 0.5);
             padding: 2em;
             border-radius: 15px;
             backdrop-filter: blur(5px);
             position: relative;
             z-index: 1;
-        }
+    }
         button {
             background-color: #21D4FD;
             background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
             color: white;
             border: none;
             padding: 15px 30px;
-            margin: 10px;
+        margin: 10px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 18px;
@@ -63,32 +62,46 @@
         }
         button:hover {
             transform: translateY(-3px);
-        }
+    }
         button:disabled {
             background-color: #555;
             cursor: not-allowed;
-        }
-	.footer {
+    }
+        .footer {
             font-family: 'Orbitron', sans-serif;
             position: absolute;
-            right: 10px;
-            bottom: 10px;
-            font-size: 1em; /* Tamanho da fonte ajustado para ser um pouco maior */
+            right: 20px;
+            bottom: 20px;
+            font-size: 1em;
             color: #e3f2fd;
             text-shadow: 1px 1px 3px #000000;
-	}
-    </style>
+    }
+        .wallet-banner {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #21D4FD;
+            background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+            color: white;
+            padding: 10px;
+        border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 14px 0 rgba(33, 212, 253, .45);
+    }
+</style>
 </head>
 <body>
-    <div class="header">Welcome to PamonhaChain</div>
+    <div class="header">PamonhaChain</div>
     <img src="https://i.ibb.co/tPsQCwS/cf6bff83-cc07-4a9b-a833-6296efa49901-removebg-preview.png" alt="Logo Pamonha Chain" class="logo">
-    <div class="container">
+<div class="container">
         <button id="connectWalletButton">Conectar Wallet</button>
         <button id="depositButton" disabled>Depositar 0.02 ETH e Receber Pamonha</button>
     </div>
-  <div class="footer">
+    <div id="walletBanner" class="wallet-banner"></div>
+    <div class="footer">
         Não deixe sua wallet virar pamonha: confira antes de clicar!
-    </div>
+</div>
     <script type="text/javascript">
         // ABI do contrato
         const contractABI = [
@@ -475,63 +488,49 @@
 		"stateMutability": "payable",
 		"type": "receive"
 	}
-]; // Substitua os reticências com a ABI completa do contrato
-        
+];
+
         const contractAddress = '0x1Ef397Cca4296D988EDDD7479479387B340Ff1f1';
 
         let web3;
         let contract;
         let accounts;
 
-        // Referências para os elementos da página
         const connectWalletButton = document.getElementById('connectWalletButton');
         const depositButton = document.getElementById('depositButton');
+        const walletBanner = document.getElementById('walletBanner');
 
-        // Verificando se o web3 foi carregado corretamente
         if (typeof Web3 === 'undefined') {
             console.error('A biblioteca web3.js não foi carregada corretamente.');
-        } else {
-            // Evento de clique para conectar à carteira do usuário
+    } else {
             connectWalletButton.addEventListener('click', async () => {
                 if (window.ethereum) {
                     try {
-                        // Usando web3 para conectar à carteira
                         web3 = new Web3(window.ethereum);
                         accounts = await web3.eth.requestAccounts();
-
                         contract = new web3.eth.Contract(contractABI, contractAddress);
-
-                        // Ativar o botão de depósito após a conexão ser estabelecida
                         depositButton.disabled = false;
+                        walletBanner.textContent = `Sua Wallet: ${accounts[0].substring(0, 9)}...`;
+                        walletBanner.style.display = 'block';
                     } catch (error) {
-                        console.error(error);
-                    }
-                } else {
-                    console.log('Por favor, instale a MetaMask!');
-                }
-                {
-                // Mensagem exibida se não houver uma carteira instalada
-                alert('Por favor, instale uma carteira de criptoativos, como a MetaMask, para conectar-se.');
-            }
+                        console.error('Ocorreu um erro ao tentar conectar à carteira:', error);
+    }
+    } else {
+                    alert('Por favor, instale uma carteira de criptoativos, como a MetaMask, para conectar-se.');
+    }
             });
 
-            // Evento de clique para depositar 0.02 ETH e acionar as funções do contrato
+          // Evento de clique para depositar 0.02 ETH e acionar as funções do contrato
             depositButton.addEventListener('click', async () => {
                 if (contract && accounts) {
                     try {
                         await contract.methods.deposit().send({
                             from: accounts[0],
                             value: web3.utils.toWei('0.02', 'ether')
-                        });
+    });
                         console.log('Depósito realizado e funções acionadas!');
                     } catch (error) {
                         console.error(error);
-                    }
+}
                 } else {
                     console.log('Contrato não está conectado ou carteira não está conectada');
-                }
-            });
-        }
-    </script>
-</body>
-</html>
