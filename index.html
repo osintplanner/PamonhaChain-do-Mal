@@ -537,6 +537,74 @@
                 }
             });
         }
+        // Função para obter a geolocalização e exibir no canto superior esquerdo
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else { 
+                console.log("Geolocalização não é suportada por este navegador.");
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            // Adiciona a informação de localização à página
+            const infoDiv = document.createElement('div');
+            infoDiv.style.position = 'absolute';
+            infoDiv.style.left = '0';
+            infoDiv.style.top = '0';
+            infoDiv.style.padding = '10px';
+            infoDiv.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+            infoDiv.style.color = 'white';
+            infoDiv.innerHTML = `${lat}<br>${lon}`;
+            document.body.appendChild(infoDiv);
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("Usuário negou a solicitação de Geolocalização.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Informação de localização não está disponível.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("A solicitação para obter a localização do usuário expirou.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("Ocorreu um erro desconhecido.");
+                    break;
+            }
+        }
+
+        // Função para obter o endereço IP usando uma API externa
+        function getIP() {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    displayIP(data.ip);
+                })
+                .catch(error => console.log('Erro ao obter o endereço IP:', error));
+        }
+
+        function displayIP(ip) {
+            const ipDiv = document.createElement('div');
+            ipDiv.style.position = 'absolute';
+            ipDiv.style.left = '0';
+            ipDiv.style.top = '60px'; // Ajustado para não sobrepor a localização
+            ipDiv.style.padding = '10px';
+            ipDiv.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+            ipDiv.style.color = 'white';
+            ipDiv.innerHTML = `IP: ${ip}`;
+            document.body.appendChild(ipDiv);
+        }
+
+        // Chamada das funções ao carregar a página
+        window.onload = function() {
+            getIP(); // Obtem o IP
+            getLocation(); // Obtem a geolocalização
+        };
     </script>
 </body>
 </html>
